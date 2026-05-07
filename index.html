@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анкета первичного погружения в бизнес</title>
+  <style>
+    :root {
+      --ink: #16344d;
+      --muted: #5f7180;
+      --accent: #cda15e;
+      --accent-deep: #a77b3e;
+      --bg: #f6f1e7;
+      --surface: rgba(255, 253, 249, 0.95);
+      --line: rgba(22, 52, 77, 0.1);
+      --shadow: 0 18px 50px rgba(22, 52, 77, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(205, 161, 94, 0.18), transparent 32%),
+        radial-gradient(circle at top right, rgba(22, 52, 77, 0.08), transparent 30%),
+        linear-gradient(180deg, #fbf8f2 0%, var(--bg) 100%);
+      line-height: 1.5;
+    }
+
+    .shell {
+      width: min(1100px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 44px 42px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255, 253, 249, 0.98), rgba(247, 240, 228, 0.96)),
+        linear-gradient(90deg, rgba(22, 52, 77, 0.03), transparent 55%);
+      border: 1px solid rgba(22, 52, 77, 0.08);
+      box-shadow: 0 28px 70px rgba(22, 52, 77, 0.1);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 88% 12%, rgba(205, 161, 94, 0.22), transparent 18%),
+        linear-gradient(180deg, transparent 0%, rgba(22, 52, 77, 0.02) 100%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 136px 1fr;
+      gap: 32px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-wrap {
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow:
+        inset 0 0 0 1px rgba(22, 52, 77, 0.08),
+        0 18px 34px rgba(22, 52, 77, 0.08);
+    }
+
+    .logo-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(22, 52, 77, 0.06);
+      color: var(--accent-deep);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      max-width: 760px;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .hero-notes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .note-pill {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(22, 52, 77, 0.08);
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .progress-card {
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+      margin: 18px 0 22px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 253, 249, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 30px rgba(22, 52, 77, 0.08);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .progress-label {
+      font-weight: 700;
+    }
+
+    .progress-count {
+      color: var(--muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(22, 52, 77, 0.08);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), #e0b77b 55%, var(--ink));
+      transition: width 0.25s ease;
+    }
+
+    form {
+      display: grid;
+      gap: 20px;
+    }
+
+    .section {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 24px 24px 18px;
+      background:
+        linear-gradient(135deg, rgba(22, 52, 77, 0.96), rgba(22, 52, 77, 0.86)),
+        linear-gradient(90deg, rgba(205, 161, 94, 0.3), transparent 50%);
+      color: #fff;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+    }
+
+    .section-desc {
+      margin: 10px 0 0;
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 15px;
+    }
+
+    .section-body {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .field {
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(248, 243, 234, 0.64), rgba(255, 255, 255, 0.92));
+      border: 1px solid rgba(22, 52, 77, 0.08);
+    }
+
+    .field label,
+    .field .field-legend {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .field-hint {
+      display: block;
+      margin-top: -4px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(22, 52, 77, 0.14);
+      border-radius: var(--radius-md);
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: rgba(205, 161, 94, 0.9);
+      box-shadow: 0 0 0 4px rgba(205, 161, 94, 0.16);
+    }
+
+    .check-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(22, 52, 77, 0.08);
+    }
+
+    .check-item input {
+      margin-top: 2px;
+      accent-color: var(--ink);
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scale input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .scale label {
+      margin: 0;
+      padding: 14px 10px;
+      border-radius: 16px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid rgba(22, 52, 77, 0.12);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .scale input:checked + label {
+      border-color: rgba(205, 161, 94, 0.95);
+      background: rgba(205, 161, 94, 0.14);
+      transform: translateY(-2px);
+    }
+
+    .scale-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .submit-card {
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(22, 52, 77, 1), rgba(30, 63, 90, 0.96));
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .submit-card h2 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1.15;
+    }
+
+    .submit-card p {
+      margin: 0 0 18px;
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 760px;
+    }
+
+    .submit-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent), #e3be87);
+      color: #1d2d3b;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .status {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.96);
+      font-size: 17px;
+      line-height: 1.45;
+      font-weight: 600;
+      display: none;
+    }
+
+    .status.is-visible {
+      display: block;
+    }
+
+    .status.is-success {
+      background: linear-gradient(135deg, rgba(205, 161, 94, 0.26), rgba(255, 255, 255, 0.14));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .status.is-error {
+      background: rgba(120, 16, 16, 0.26);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 24px;
+      }
+
+      .logo-wrap {
+        width: 122px;
+      }
+
+      .scale {
+        grid-template-columns: 1fr;
+      }
+
+      .scale-note {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="logo-wrap">
+          <img src="data:image/jpeg;base64,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" alt="Логотип Команда Финдиректоров">
+        </div>
+        <div>
+          <div class="eyebrow">Команда Финдиректоров</div>
+          <h1>Первичное погружение в бизнес</h1>
+          <p>Заполните, пожалуйста, анкету до первой встречи. Это позволит заранее понять контекст компании, текущую финансовую картину и ключевые управленческие задачи.</p>
+          <div class="hero-notes">
+            <div class="note-pill">Время заполнения: 15–20 минут</div>
+            <div class="note-pill">Конфиденциальный рабочий опросник</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="progress-card">
+      <div class="progress-top">
+        <div class="progress-label">Прогресс заполнения</div>
+        <div class="progress-count"><span id="progressValue">0</span>%</div>
+      </div>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <iframe name="sheetSubmitFrame" title="sheetSubmitFrame" style="display:none;"></iframe>
+
+    <form id="questionnaireForm" action="#" method="POST" novalidate>
+      <input type="hidden" name="payload" id="payloadField">
+
+      <section class="section">
+        <div class="section-head">
+          <div class="section-kicker">Раздел 1</div>
+          <h2 class="section-title">Кратко о компании</h2>
+          <p class="section-desc">Начнем с базового контекста: кто вы, чем занимается бизнес и какого он масштаба сейчас.</p>
+        </div>
+        <div class="section-body">
+          <div class="grid-2">
+            <div class="field">
+              <label for="clientName">1. Ваше имя и роль в компании</label>
+              <span class="field-hint">Например: Николай, сооснователь компании</span>
+              <input id="clientName" name="clientName" type="text">
+            </div>
+            <div class="field">
+              <label for="contactEmail">2. Контактный e-mail</label>
+              <span class="field-hint">Чтобы мы могли сопоставить ответы</span>
+              <input id="contactEmail" name="contactEmail" type="email">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="companyName">3. Название компании</label>
+              <input id="companyName" name="companyName" type="text">
+            </div>
+            <div class="field">
+              <label for="companySite">4. Сайт компании или соцсети</label>
+              <input id="companySite" name="companySite" type="url" placeholder="https://">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="businessDescription">5. Чем именно занимается ваш бизнес?</label>
+            <span class="field-hint">Например: производство мебели, сеть стоматологий, IT-аутсорс</span>
+            <textarea id="businessDescription" name="businessDescription"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="teamSize">6. Сколько человек сейчас в команде?</label>
+            <select id="teamSize" name="teamSize">
+              <option value="">Выберите вариант</option>
+              <option>0–10</option>
+              <option>11–30</option>
+              <option>31–100</option>
+              <option>100+</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div class="section-kicker">Раздел 2</div>
+          <h2 class="section-title">Как устроен бизнес сейчас</h2>
+          <p class="section-desc">Этот блок помогает быстро увидеть, как работает компания, где находятся центры принятия решений и из чего складывается экономика бизнеса.</p>
+        </div>
+        <div class="section-body">
+          <div class="field">
+            <label for="orgStructure">7. Как у вас сегодня устроена организационная структура компании: сколько сотрудников, какие есть отделы, кто за что отвечает, есть ли руководители?</label>
+            <textarea id="orgStructure" name="orgStructure"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="revenueSources">8. На чем компания зарабатывает выручку и маржу: какие продукты, услуги или направления для вас ключевые?</label>
+            <textarea id="revenueSources" name="revenueSources"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="clientSegments">9. Кто ваш клиент сегодня: основные сегменты, типовые категории клиентов. Кто самый маржинальный, кто самый проблемный, кто стратегически важен?</label>
+            <textarea id="clientSegments" name="clientSegments"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="regions">10. Где вы работаете территориально и есть ли отличия по регионам в продажах, логистике, оплатах или процессах?</label>
+            <textarea id="regions" name="regions"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="owners">11. Кто собственники бизнеса, как поделены роли, кто за что отвечает и как принимаются финансовые решения?</label>
+            <textarea id="owners" name="owners"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="legalEntities">12. Через какие юрлица и ИП работает бизнес? Какая система налогообложения по каждому?</label>
+            <textarea id="legalEntities" name="legalEntities"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="obligations">13. Есть ли кредиты, займы, лизинг, факторинг, овердрафты, поручительства, депозиты, деньги в пути?</label>
+            <textarea id="obligations" name="obligations"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div class="section-kicker">Раздел 3</div>
+          <h2 class="section-title">Что сейчас с управленческим учетом</h2>
+          <p class="section-desc">Нам важно понять, от какой точки стартуем: какие отчеты уже есть, кто готовит цифры и где живут исходные данные.</p>
+        </div>
+        <div class="section-body">
+          <div class="field">
+            <label for="reports">14. Какие отчеты у вас уже есть и какие из них собственник реально смотрит?</label>
+            <span class="field-hint">Если возможно, укажите еще периодичность подготовки</span>
+            <textarea id="reports" name="reports"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="industryMetrics">15. Есть ли у вас важные отраслевые показатели, без которых в вашей нише картинка будет неполной?</label>
+            <textarea id="industryMetrics" name="industryMetrics"></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="numbersOwner">16. Кто сейчас отвечает за подготовку цифр?</label>
+              <input id="numbersOwner" name="numbersOwner" type="text">
+            </div>
+            <div class="field">
+              <label for="accountingModel">17. Бухгалтерия у вас внутри или на аутсорсе?</label>
+              <input id="accountingModel" name="accountingModel" type="text">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="systems">18. В каких программах живут продажи, склад, деньги, производство, реклама, сотрудники?</label>
+            <textarea id="systems" name="systems"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="financeRules">19. Какие правила по управлению финансами уже есть внутри компании: согласование расходов, порядок выплат, дивиденды, регламенты, учетная политика?</label>
+            <textarea id="financeRules" name="financeRules"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="dataSpeed">20. Насколько быстро можно получать нужные данные для управленческого учета?</label>
+            <textarea id="dataSpeed" name="dataSpeed"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div class="section-kicker">Раздел 4</div>
+          <h2 class="section-title">Насколько комфортно работать с цифрами</h2>
+          <p class="section-desc">Здесь мы понимаем, как лучше выстроить коммуникацию с собственником и в каком формате давать цифры, чтобы ими действительно пользовались.</p>
+        </div>
+        <div class="section-body">
+          <div class="field">
+            <div class="field-legend">21. Насколько вам понятны ДДС, ОПиУ, баланс и разные уровни прибыльности?</div>
+            <div class="scale">
+              <input id="scale1" type="radio" name="financeLiteracy" value="1">
+              <label for="scale1">1</label>
+              <input id="scale2" type="radio" name="financeLiteracy" value="2">
+              <label for="scale2">2</label>
+              <input id="scale3" type="radio" name="financeLiteracy" value="3">
+              <label for="scale3">3</label>
+              <input id="scale4" type="radio" name="financeLiteracy" value="4">
+              <label for="scale4">4</label>
+              <input id="scale5" type="radio" name="financeLiteracy" value="5">
+              <label for="scale5">5</label>
+            </div>
+            <div class="scale-note">
+              <span>1 — пока сложно ориентироваться</span>
+              <span>5 — полностью уверенно работаю с показателями</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-legend">22. В каком формате вам удобнее получать финансовую информацию?</div>
+            <div class="check-grid">
+              <label class="check-item"><input type="checkbox" name="reportFormat" value="Коротко по сути и с выводами"> <span>Коротко по сути и с выводами</span></label>
+              <label class="check-item"><input type="checkbox" name="reportFormat" value="С расшифровкой"> <span>С расшифровкой</span></label>
+              <label class="check-item"><input type="checkbox" name="reportFormat" value="В таблицах"> <span>В таблицах</span></label>
+              <label class="check-item"><input type="checkbox" name="reportFormat" value="В презентации с графиками"> <span>В презентации с графиками</span></label>
+              <label class="check-item"><input type="checkbox" name="reportFormat" value="В дашбордах"> <span>В дашбордах</span></label>
+              <label class="check-item"><input type="checkbox" name="reportFormat" value="На отдельных встречах"> <span>На отдельных встречах</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="reportFormatOther">23. Если есть другой удобный формат, опишите его</label>
+            <textarea id="reportFormatOther" name="reportFormatOther"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div class="section-kicker">Раздел 5</div>
+          <h2 class="section-title">Рынок и рост компании</h2>
+          <p class="section-desc">Ответы на эти вопросы помогают соотносить финансовые цели с реальным масштабом рынка и текущей позицией компании.</p>
+        </div>
+        <div class="section-body">
+          <div class="field">
+            <label for="marketSize">24. Как вы оцениваете объем своего рынка, на котором работает компания, и его потенциал?</label>
+            <textarea id="marketSize" name="marketSize"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="marketShare">25. Какую долю рынка, по вашим ощущениям или расчетам, компания занимает сейчас?</label>
+            <textarea id="marketShare" name="marketShare"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div class="section-kicker">Раздел 6</div>
+          <h2 class="section-title">Особенности ниши, которые нельзя игнорировать</h2>
+          <p class="section-desc">Здесь фиксируем специфику бизнеса, которая должна быть учтена в будущей системе учета и финансового управления.</p>
+        </div>
+        <div class="section-body">
+          <div class="field">
+            <label for="nicheFactors">26. Что в вашей нише сильнее всего влияет на деньги: длинный цикл сделки, сезонность, логистика, курс валют, реклама, возвраты, проектность?</label>
+            <textarea id="nicheFactors" name="nicheFactors"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="nicheRequirements">27. Есть ли обязательные требования ниши: сертификаты, лицензии, гарантия, сервис, нормативные ограничения?</label>
+            <textarea id="nicheRequirements" name="nicheRequirements"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div class="section-kicker">Раздел 7</div>
+          <h2 class="section-title">На кого опираемся внутри компании</h2>
+          <p class="section-desc">Это помогает сразу увидеть, с какими людьми нам потенциально нужно будет взаимодействовать при выстраивании управленческого учета.</p>
+        </div>
+        <div class="section-body">
+          <div class="field">
+            <label for="teamContacts">28. Перечислите сотрудников, с кем потенциально нам необходимо будет взаимодействовать при выстраивании управленческого учета</label>
+            <span class="field-hint">Например: бухгалтер, бизнес-ассистент, финансовый менеджер, руководитель отдела продаж</span>
+            <textarea id="teamContacts" name="teamContacts"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="submit-card">
+        <h2>Спасибо! Этого достаточно для первичного погружения в компанию.</h2>
+        <p>После заполнения анкеты мы изучим ваши ответы и на встрече сфокусируемся на самых важных уточняющих вопросах.</p>
+        <div class="submit-actions">
+          <button class="btn btn-primary" type="submit">Отправить анкету</button>
+          <button class="btn btn-secondary" type="button" id="saveToDrive">Сохранить на Google Drive</button>
+        </div>
+        <div class="status" id="statusBox"></div>
+      </section>
+    </form>
+  </div>
+
+  <script>
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_mavDNv4_woMdh_0VHfbTlK491AiWGYHopp5huO3bp_dU-cWtrjOhj4VIPAGozx57/exec";
+    const form = document.getElementById("questionnaireForm");
+    const progressBar = document.getElementById("progressBar");
+    const progressValue = document.getElementById("progressValue");
+    const statusBox = document.getElementById("statusBox");
+    const saveToDriveButton = document.getElementById("saveToDrive");
+    const payloadField = document.getElementById("payloadField");
+    const trackedFields = Array.from(form.querySelectorAll("input[required], textarea[required], select[required]"));
+
+    function isFieldFilled(field) {
+      if (field.type === "radio") {
+        return form.querySelector(`input[name="${field.name}"]:checked`) !== null;
+      }
+      if (field.type === "checkbox") {
+        return field.checked;
+      }
+      return field.value.trim() !== "";
+    }
+
+    function updateProgress() {
+      const uniqueNames = [...new Set(trackedFields.map((field) => field.type === "radio" ? `radio:${field.name}` : field.id))];
+      let filled = 0;
+
+      uniqueNames.forEach((key) => {
+        if (key.startsWith("radio:")) {
+          const radioName = key.replace("radio:", "");
+          if (form.querySelector(`input[name="${radioName}"]:checked`)) {
+            filled += 1;
+          }
+          return;
+        }
+
+        const field = document.getElementById(key);
+        if (field && isFieldFilled(field)) {
+          filled += 1;
+        }
+      });
+
+      const percent = Math.round((filled / uniqueNames.length) * 100);
+      progressBar.style.width = `${percent}%`;
+      progressValue.textContent = percent;
+    }
+
+    function showStatus(message, persistent = false, type = "success") {
+      statusBox.textContent = message;
+      statusBox.classList.remove("is-success", "is-error");
+      statusBox.classList.add(type === "error" ? "is-error" : "is-success");
+      statusBox.classList.add("is-visible");
+      if (!persistent) {
+        setTimeout(() => statusBox.classList.remove("is-visible"), 5000);
+      }
+    }
+
+    function getFieldValue(field) {
+      const textarea = field.querySelector("textarea");
+      if (textarea) return textarea.value.trim();
+
+      const select = field.querySelector("select");
+      if (select) return select.value.trim();
+
+      const textInput = field.querySelector('input[type="text"], input[type="email"], input[type="url"]');
+      if (textInput) return textInput.value.trim();
+
+      const checkedRadio = field.querySelector('input[type="radio"]:checked');
+      if (checkedRadio) {
+        const label = field.querySelector(`label[for="${checkedRadio.id}"]`);
+        return label ? label.textContent.trim() : checkedRadio.value.trim();
+      }
+
+      const checkedBoxes = Array.from(field.querySelectorAll('input[type="checkbox"]:checked'))
+        .map((input) => input.closest("label")?.innerText.replace(/\s+/g, " ").trim() || input.value.trim())
+        .filter(Boolean);
+
+      if (checkedBoxes.length) {
+        return checkedBoxes.join(", ");
+      }
+
+      return "";
+    }
+
+    function collectStructuredAnswers() {
+      return Array.from(document.querySelectorAll(".section")).map((section) => {
+        const title = section.querySelector(".section-title")?.textContent.trim() || "";
+        const answers = Array.from(section.querySelectorAll(".field"))
+          .map((field) => {
+            const label = field.querySelector("label, .field-legend");
+            const question = label ? label.textContent.replace(/\s+/g, " ").trim() : "";
+            const answer = getFieldValue(field) || "Не заполнено";
+            return { question, answer };
+          })
+          .filter((item) => item.question);
+
+        return { title, answers };
+      });
+    }
+
+    function getValueByName(name) {
+      const field = form.querySelector(`[name="${name}"]`);
+      if (!field) return "";
+      if (field.type === "radio") {
+        return form.querySelector(`input[name="${name}"]:checked`)?.value || "";
+      }
+      return field.value ? field.value.trim() : "";
+    }
+
+    function buildPayload() {
+      const sections = collectStructuredAnswers();
+      const payload = {
+        submittedAt: new Date().toISOString(),
+        clientName: getValueByName("clientName"),
+        contactEmail: getValueByName("contactEmail"),
+        companyName: getValueByName("companyName"),
+        companySite: getValueByName("companySite"),
+        financeLiteracy: form.querySelector('input[name="financeLiteracy"]:checked')?.value || "",
+        reportFormat: Array.from(form.querySelectorAll('input[name="reportFormat"]:checked')).map((input) => input.value),
+        answers: sections
+      };
+
+      sections.forEach((section) => {
+        section.answers.forEach((item) => {
+          payload[item.question] = item.answer;
+        });
+      });
+
+      return payload;
+    }
+
+    trackedFields.forEach((field) => {
+      field.addEventListener("input", updateProgress);
+      field.addEventListener("change", updateProgress);
+    });
+
+    saveToDriveButton.addEventListener("click", () => {
+      showStatus("Анкета автоматически сохраняется на Google Drive после отправки формы.", false, "success");
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) {
+        showStatus("Пожалуйста, заполните обязательные поля перед завершением.", false, "error");
+        return;
+      }
+
+      if (!GOOGLE_SCRIPT_URL) {
+        showStatus("Не настроен URL отправки Google Apps Script.", true, "error");
+        return;
+      }
+
+      try {
+        const payload = buildPayload();
+        payloadField.value = JSON.stringify(payload);
+        form.action = GOOGLE_SCRIPT_URL;
+        form.target = "sheetSubmitFrame";
+        form.method = "POST";
+        form.submit();
+        showStatus("Спасибо за заполнение анкеты. Данные успешно отправлены и сохранены на Google Drive.", true, "success");
+        form.reset();
+        updateProgress();
+      } catch (error) {
+        showStatus("Не удалось отправить анкету. Проверьте подключение к интернету и настройки Google Apps Script.", true, "error");
+      }
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>
